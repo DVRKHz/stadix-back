@@ -14,7 +14,7 @@ origins = origins_str.split(",")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["http://localhost:3000", "http://127.0.0.1:8000"] + origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -33,4 +33,4 @@ app.include_router(inference.router, prefix="/api/v1/inference", tags=["Inferenc
 app.include_router(nonparametric.router, prefix="/api/v1/nonparametric", tags=["NonParametric"])
 app.include_router(probability.router, prefix="/api/v1/probability", tags=["Probability"]) 
 app.include_router(hypothesis.router, prefix="/api/v1/hypothesis", tags=["Hypothesis"]) # Pruebas T / ANOVA
-app.include_router(sampling.router, prefix="/api/v1/sampling", tags=["Sampling"]) 
+app.include_router(sampling.router, prefix="/api/v1/sampling", tags=["Sampling"])
