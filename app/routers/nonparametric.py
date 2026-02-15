@@ -1,10 +1,19 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException
+from app.schemas import ChiSquareRequest, ChiSquareResponse
+from app.services.nonparametric import calculate_chi_square
 import pandas as pd
 import io
 import numpy as np
 from scipy.stats import chi2_contingency
 
 router = APIRouter()
+
+@router.post("/chi-square", response_model=ChiSquareResponse)
+async def perform_chi_square(payload: ChiSquareRequest):
+    result = calculate_chi_square(payload.observed_data)
+    if "error" in result:
+        raise HTTPException(status_code=400, detail=result["error"])
+    return result
 
 @router.post("/upload")
 async def upload_file(file: UploadFile = File(...)):
